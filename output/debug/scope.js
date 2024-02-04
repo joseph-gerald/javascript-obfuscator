@@ -1,21 +1,21 @@
-function a(d, b, x) {
-  let l = "";
-  for (let v = 0; v < d.length; v++) l += String.fromCharCode(d.charCodeAt(v) ^ b + v + x);
-  return l;
+function t(p, v, x) {
+  let q = "";
+  for (let o = 0; o < p.length; o++) q += String.fromCharCode(p.charCodeAt(o) ^ v + o + x);
+  return q;
 }
-const w = (d, b) => a(d, b, 5176121559162428);
-var f, g, z; // Declare 3 variables
-f = 5; // Assign the value 5 to x
-g = 6; // Assign the value 6 to y
-z = f + g; // Assign the sum of x and y to z
+const i = (p, v) => t(p, v, 2794287667302313);
+var h, u, l; // Declare 3 variables
+h = i("\u3019\u301E", 45015172) - i("\uC789\uC78E", 56653841); // Assign the value 5 to x
+u = i("\u1787\u1785", 378893) - "6"; // Assign the value 6 to y
+l = h + u; // Assign the sum of x and y to z
 
-function p(f, g) {
-  return f + g;
+function c(h, u) {
+  return h + u;
 }
 {
-  const o = (d, b) => a(d, b, 8892431720434384);
-  const f = 1;
-  console[o("\u3C80\u3C82\u3C89", 17265180)](f, z, f + z);
+  const i = (p, v) => t(p, v, 2794287667302313);
+  const h = i("\u132A\u132C", 72729458) - "9";
+  console[i("\u7531\u7531\u7538", 21243316)](h, l, h + l);
 }
-console[w("\uC6AF\uC6AB\uC6A2", 23505031)](f, g, z);
-console[w("\u7F25\u7F25\u7F2C", 15884557)](p(1, 2));
+console[i("\uEF8F\uEF8B\uEF82", 16687162)](h, u, l);
+console[i("\u9CDF\u9CDB\u9CD2", 2444554)](c(i("\u95C1\u95C1", 19613255) - "9", "8" - "6"));

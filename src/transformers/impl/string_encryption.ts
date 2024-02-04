@@ -63,7 +63,7 @@ export default class extends transformer {
             BlockStatement(path: NodePath<types.BlockStatement>) {
                 if (path.parentPath.isFunctionDeclaration() || path.parentPath.isFunctionExpression() || path.parentPath.isArrowFunctionExpression()) return path.skip();
 
-                const localId = Math.floor(Math.random() * 1E+16);
+                const localId = programId || Math.floor(Math.random() * 1E+16);
 
                 let decryptorIdentifier = `_decryptor__${localId}`;
                 path.node.body.unshift(generateXorProxyFunction(decryptorIdentifier, localId).program.body[0]);
@@ -73,9 +73,10 @@ export default class extends transformer {
 
             StringLiteral(path: NodePath<types.StringLiteral>) {
                 if (path.node.value.length > 1) {
-                    console.log()
                     const key = Math.floor(Math.random() * 1E+8);
                     const [decryptorIdentifier, id] = decryptorMap.get(path.scope) as any;
+
+                    console.log(xorId(path.node.value, key, id))
 
                     path.replaceWith(expressionStatement(callExpression(identifier(decryptorIdentifier), [types.stringLiteral(xorId(path.node.value, key, id)), types.numericLiteral(key)])));
                     path.skip();

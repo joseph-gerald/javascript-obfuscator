@@ -17,8 +17,7 @@ function mangled(id: number) {
 
     while (id >= 0) {
         const remainder = id % 26;
-        if (reserved.includes(mangledValue)) {
-            id--;
+        if (reserved.includes(mangledValue) || identifierMap.has(mangledValue)) {
             continue;
         }
         mangledValue = base[remainder] + mangledValue;

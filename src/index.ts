@@ -7,6 +7,7 @@ import string_encryption from "./transformers/impl/string_encryption";
 import number_expressor from "./transformers/impl/number_expressor";
 import literal_container from "./transformers/impl/literal_container";
 import comment_stripper from "./transformers/impl/comment_stripper";
+import proxy_transformer from "./transformers/impl/proxy_transformer";
 
 const DEBUG = true;
 const PATH = DEBUG ? "input/debug" : "input";
@@ -21,9 +22,11 @@ files.forEach(async (file) => {
         new number_expressor(),
         new member_transformer(),
         new string_encryption(),
+        new member_transformer(),
         new literal_container(),
         new identifier_mangling(),
-        new comment_stripper()
+        new comment_stripper(),
+        new proxy_transformer()
 
     ], {
         preMinify: false,

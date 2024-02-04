@@ -22,7 +22,7 @@ function xorId(str: string, key: number, id: number) {
     return result;
 }
 
-function xor(str: string, key: number, id: number) {
+const xor = (str: string, key: number, id: number) => {
     let result = "";
 
     for (let i = 0; i < str.length; i++) result += String.fromCharCode(str.charCodeAt(i) ^ key + i + id);
@@ -33,7 +33,9 @@ function xor(str: string, key: number, id: number) {
 const xorProxy = (str: string, key: number) => xor(str, key, $id);
 
 function generateXorFunction(decryptorIdentifier: string, id: number) {
-    return parse(xor.toString().replace("xor", decryptorIdentifier));
+    const functionExpression = xor.toString().replace("xor", decryptorIdentifier).replace("$id", id.toString()).replace("xor", xorIdentifier);
+    const script = `const ${decryptorIdentifier} = ${functionExpression}`;
+    return parse(script);
 }
 
 function generateXorProxyFunction(decryptorIdentifier: string, id: number) {

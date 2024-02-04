@@ -18,6 +18,12 @@ export default class extends transformer {
                 if (types.isIdentifier(path.node.id)) fetchIdentifier(path.node.id.name);
             },
 
+            ArrowFunctionExpression(path: NodePath<types.ArrowFunctionExpression>) {
+                for (const param of path.node.params) {
+                    if (types.isIdentifier(param)) fetchIdentifier(param.name);
+                }
+            },
+
             FunctionDeclaration(path: NodePath<types.FunctionDeclaration>) {
                 for (const param of path.node.params) {
                     if (types.isIdentifier(param)) fetchIdentifier(param.name);

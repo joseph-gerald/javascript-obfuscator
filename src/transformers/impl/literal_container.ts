@@ -38,7 +38,7 @@ export default class extends transformer {
         const literal_entries = Object.entries(literals).sort(_ => Math.random() - 0.5);
         const literal_values = literal_entries.map(([_, value]) => value);
 
-        console.log(literal_values)
+        //console.log(literal_values)
 
         traverse(node, {
             StringLiteral(path: NodePath<types.StringLiteral>) {
@@ -71,10 +71,12 @@ export default class extends transformer {
             }
         })
 
+        const valueNode = types.arrayExpression(literal_entries.map(([_, value]) => _.startsWith("o") ? types.identifier(value as string) : types.valueToNode(value)));
+        
         traverse(node, {
             Program(path: NodePath<types.Program>) {
                 path.node.body.unshift(types.variableDeclaration("const", [
-                    types.variableDeclarator(types.identifier(containerIdentifier), types.arrayExpression(literal_entries.map(([_, value]) => _.startsWith("o") ? types.identifier(value as string) : types.valueToNode(value))))
+                    types.variableDeclarator(types.identifier(containerIdentifier), valueNode)
                 ]));
             },
         });

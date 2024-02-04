@@ -30,7 +30,7 @@ files.forEach(async (file) => {
 
     ], {
         preMinify: false,
-        postMinify: false
+        postMinify: true
     });
 
     fs.writeFileSync(`${OUTPUT_PATH}/${file}`, obfuscated);

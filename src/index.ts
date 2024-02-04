@@ -3,6 +3,7 @@ import * as fs from "fs";
 
 import identifierMangling from "./transformers/impl/identifier_mangling";
 import memberTransformer from "./transformers/impl/member_transformer";
+import stringEncryption from "./transformers/impl/string_encryption";
 
 const DEBUG = true;
 const PATH = DEBUG ? "input/debug" : "input";
@@ -15,7 +16,9 @@ files.forEach(async (file) => {
 
     const obfuscated = await obfuscate(content, [
         new memberTransformer(),
-        new identifierMangling()
+        new stringEncryption(),
+        new memberTransformer(),
+        new identifierMangling(),
     ], {
         preMinify: false,
         postMinify: true

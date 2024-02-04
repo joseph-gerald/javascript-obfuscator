@@ -27,7 +27,6 @@ export default class extends transformer {
             VariableDeclarator(path : NodePath<types.VariableDeclarator>){
                 if(!types.isIdentifier(path.node.id)) return;
                 path.node.id.name = fetchIdentifier(path.node.id.name);
-                console.log(node)
             },
 
             Identifier(path : NodePath<types.Identifier>){

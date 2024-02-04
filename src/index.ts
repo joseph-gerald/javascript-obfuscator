@@ -17,7 +17,6 @@ files.forEach(async (file) => {
     const obfuscated = await obfuscate(content, [
         new memberTransformer(),
         new stringEncryption(),
-        new memberTransformer(),
         new identifierMangling(),
     ], {
         preMinify: false,

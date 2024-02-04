@@ -1,38 +1,39 @@
 import * as types from "@babel/types";
 import traverse from "@babel/traverse";
 import transformer from "../transformer";
-import {NodePath} from "@babel/traverse";
+import { NodePath } from "@babel/traverse";
 
-import { randomizeSeed, numeric } from "../../utils/identifier_utils";
+import { randomizeSeed, fetchIdentifier, identifierMap } from "../../utils/identifier_utils";
 
 randomizeSeed();
-
-const identifierMap = new Map<string, string>();
-
-function fetchIdentifier(name : string) : string {
-    if(!identifierMap.has(name)) {
-        identifierMap.set(name, numeric(identifierMap.size));
-        //identifierMap.set(name, `_${identifierMap.size}`);
-    }
-    return identifierMap.get(name) as string;
-}
 
 export default class extends transformer {
     constructor() {
         super("Identifier Mangling");
-    }        
+    }
 
-    transform(node: types.Node, code : string) {
+    transform(node: types.Node, code: string) {
         traverse(node, {
-            VariableDeclarator(path : NodePath<types.VariableDeclarator>){
-                if(!types.isIdentifier(path.node.id)) return;
+            VariableDeclarator(path: NodePath<types.VariableDeclarator>) {
+                if (!types.isIdentifier(path.node.id)) return;
                 path.node.id.name = fetchIdentifier(path.node.id.name);
             },
 
-            Identifier(path : NodePath<types.Identifier>){
-                if (identifierMap.has(path.node.name)) {
-                    path.node.name = identifierMap.get(path.node.name) as string;
+            FunctionDeclaration(path: NodePath<types.FunctionDeclaration>) {
+                for (const param of path.node.params) {
+                    if (!types.isIdentifier(param)) continue;
+                    param.name = fetchIdentifier(param.name);
                 }
+
+                if (!types.isIdentifier(path.node.id)) return;
+                path.node.id.name = fetchIdentifier(path.node.id.name);
+            },
+
+            Identifier(path: NodePath<types.Identifier>) {
+                if (identifierMap.has(path.node.name)) {
+                    path.node.name = fetchIdentifier(path.node.name);
+                }
+                path.skip();
             }
         });
     }

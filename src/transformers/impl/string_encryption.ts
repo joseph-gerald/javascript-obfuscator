@@ -72,11 +72,9 @@ export default class extends transformer {
             },
 
             StringLiteral(path: NodePath<types.StringLiteral>) {
-                if (path.node.value.length > 1) {
+                if (path.node.value.length > 0) {
                     const key = Math.floor(Math.random() * 1E+8);
                     const [decryptorIdentifier, id] = decryptorMap.get(path.scope) as any;
-
-                    console.log(xorId(path.node.value, key, id))
 
                     path.replaceWith(expressionStatement(callExpression(identifier(decryptorIdentifier), [types.stringLiteral(xorId(path.node.value, key, id)), types.numericLiteral(key)])));
                     path.skip();

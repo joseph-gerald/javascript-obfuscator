@@ -16,7 +16,8 @@
     "@babel/parser": "^7.23.9",
     "@babel/traverse": "^7.23.9",
     "@babel/types": "^7.23.9",
-    "babel": "^6.23.0"
+    "babel": "^6.23.0",
+    "terser": "^5.27.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-unicode-regex": "^7.23.3",

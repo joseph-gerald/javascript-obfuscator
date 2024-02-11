@@ -29,7 +29,8 @@ export default class extends transformer {
 
             MemberExpression(path: NodePath<types.MemberExpression>) {
                 if (types.isIdentifier(path.node.object)) {
-                    const shouldContain = !path.scope.hasBinding(path.node.object.name) || path.node.object.name == "String";
+                    const shouldContain = !path.scope.hasBinding(path.node.object.name) || path.scope.hasGlobal(path.node.object.name) || path.node.object.name == "String";
+                    console.log(path.node.object.name, shouldContain);
                     if (shouldContain && !Object.values(literals).includes(path.node.object.name)) literals["o_" + Object.keys(literals).length] = path.node.object.name;
                 }
             }

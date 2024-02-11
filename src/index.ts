@@ -19,6 +19,7 @@ files.forEach(async (file) => {
     const content = fs.readFileSync(`${PATH}/${file}`, "utf8");
 
     const obfuscated = await obfuscate(content, [
+        new proxy_transformer(),
         new number_expressor(),
         new member_transformer(),
         new string_encryption(),
@@ -26,11 +27,10 @@ files.forEach(async (file) => {
         new literal_container(),
         new identifier_mangling(),
         new comment_stripper(),
-        new proxy_transformer()
 
     ], {
         preMinify: false,
-        postMinify: true
+        postMinify: false
     });
 
     fs.writeFileSync(`${OUTPUT_PATH}/${file}`, obfuscated);

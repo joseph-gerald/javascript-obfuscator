@@ -14,11 +14,13 @@ export default class extends transformer {
         traverse(node, {
             MemberExpression(path : NodePath<types.MemberExpression>){
                 // check if the property is an identifier
-                if(!types.isIdentifier(path.node.property)) return;
+                if(!types.isIdentifier(path.node.property) || path.node.computed) return;
                 //if(!types.isCallExpression(path.parent)) return;
 
                 if(code[path.node.loc?.start.index as number - 1] == "{" || code[path.node.loc?.start.index as number - 1] == "[" || code[path.node.loc?.start.index as number - 1] == "(")
                     return;
+
+                console.log(path.node.property.name);
 
                 path.replaceWith(parse(`${generate(path.node.object as any).code}["${path.node.property.name}"]`).program.body[0])
             }

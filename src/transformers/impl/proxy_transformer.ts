@@ -8,7 +8,8 @@ function contextFetcher(key: string) {
     try {
         return Function("return this")()[key];
     } catch (_) {
-        return (globalThis as any)[key];
+        // @ts-ignore
+        return (this as any)[key];
     }
 }
 

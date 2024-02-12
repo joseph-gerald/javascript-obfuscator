@@ -20,8 +20,6 @@ export default class extends transformer {
                 if(code[path.node.loc?.start.index as number - 1] == "{" || code[path.node.loc?.start.index as number - 1] == "[" || code[path.node.loc?.start.index as number - 1] == "(")
                     return;
 
-                console.log(path.node.property.name);
-
                 path.replaceWith(parse(`${generate(path.node.object as any).code}["${path.node.property.name}"]`).program.body[0])
             }
         });

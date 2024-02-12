@@ -22,26 +22,26 @@ function xorId(str: string, key: number, id: number) {
     return result;
 }
 
-const xor = (str: string, key: number, id: number) => {
+function xor(str: string, key: number, id: number) {
     let result = "";
-
-    for (let i = 0; i < str.length; i++) result += String.fromCharCode(str.charCodeAt(i) ^ key + i + id);
-    
+    for (let i = 0; i < str.length; i++) {
+        result += String.fromCharCode(str.charCodeAt(i) ^ key + i + id);
+    }
     return result;
 }
 
-const xorProxy = (str: string, key: number) => xor(str, key, $id);
+function xorProxy(str: string, key: number) {
+    return xor(str, key, $id);
+}
 
 function generateXorFunction(decryptorIdentifier: string, id: number) {
     const functionExpression = xor.toString().replace("xor", decryptorIdentifier).replace("$id", id.toString()).replace("xor", xorIdentifier);
-    const script = `const ${decryptorIdentifier} = ${functionExpression}`;
-    return parse(script);
+    return parse(functionExpression);
 }
 
 function generateXorProxyFunction(decryptorIdentifier: string, id: number) {
     const functionExpression = xorProxy.toString().replace("xorProxy", decryptorIdentifier).replace("$id", id.toString()).replace("xor", xorIdentifier);
-    const script = `const ${decryptorIdentifier} = ${functionExpression}`;
-    return parse(script);
+    return parse(functionExpression);
 }
 
 export default class extends transformer {

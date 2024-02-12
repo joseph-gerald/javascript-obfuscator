@@ -18,6 +18,9 @@ function mangled(id: number) {
     while (id >= 0) {
         const remainder = id % 26;
         if (reserved.includes(mangledValue) || identifierMap.has(mangledValue)) {
+            //console.log(`Identifier ${mangledValue} is reserved or already exists, skipping...`);
+            mangledValue = base[remainder] + mangledValue;
+            id += 26;
             continue;
         }
         mangledValue = base[remainder] + mangledValue;

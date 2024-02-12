@@ -14,6 +14,16 @@ export default class extends transformer {
 
     transform(node: types.Node, code: string) {
         traverse(node, {
+            FunctionDeclaration(path: NodePath<types.FunctionDeclaration>) {
+                for (const param of path.node.params) {
+                    if (types.isIdentifier(param)) fetchIdentifier(param.name);
+                }
+
+                if (types.isIdentifier(path.node.id)) fetchIdentifier(path.node.id.name);
+            },
+        });
+
+        traverse(node, {
             VariableDeclarator(path: NodePath<types.VariableDeclarator>) {
                 if (types.isIdentifier(path.node.id)) fetchIdentifier(path.node.id.name);
             },
@@ -22,14 +32,6 @@ export default class extends transformer {
                 for (const param of path.node.params) {
                     if (types.isIdentifier(param)) fetchIdentifier(param.name);
                 }
-            },
-
-            FunctionDeclaration(path: NodePath<types.FunctionDeclaration>) {
-                for (const param of path.node.params) {
-                    if (types.isIdentifier(param)) fetchIdentifier(param.name);
-                }
-
-                if (types.isIdentifier(path.node.id)) fetchIdentifier(path.node.id.name);
             },
 
             Identifier(path: NodePath<types.Identifier>) {

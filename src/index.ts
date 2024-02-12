@@ -8,6 +8,7 @@ import number_expressor from "./transformers/impl/number_expressor";
 import literal_container from "./transformers/impl/literal_container";
 import comment_stripper from "./transformers/impl/comment_stripper";
 import proxy_transformer from "./transformers/impl/proxy_transformer";
+import function_arrowfy from "./transformers/impl/functionArrowfy";
 
 const DEBUG = true;
 const PATH = DEBUG ? "input/debug" : "input";
@@ -18,19 +19,36 @@ const files = fs.readdirSync(PATH).filter((file) => file.endsWith(".js"));
 files.forEach(async (file) => {
     const content = fs.readFileSync(`${PATH}/${file}`, "utf8");
 
-    const obfuscated = await obfuscate(content, [
+    const obfuscated = await obfuscate(content, [        
         new proxy_transformer(),
         new number_expressor(),
         new member_transformer(),
         new string_encryption(),
+
         new member_transformer(),
         new literal_container(),
         new identifier_mangling(),
-        new comment_stripper(),
 
+        new member_transformer(),
+        new string_encryption(),
+        new member_transformer(),
+
+        new proxy_transformer(),
+
+        new member_transformer(),
+        new string_encryption(),
+        new member_transformer(),
+
+        new literal_container(),
+        new identifier_mangling(),
+        
+        new comment_stripper(),
+        /*
+        */
     ], {
         preMinify: false,
-        postMinify: false
+        postMinify: false,
+        debug: false
     });
 
     fs.writeFileSync(`${OUTPUT_PATH}/${file}`, obfuscated);
